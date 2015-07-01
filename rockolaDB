@@ -1,0 +1,44 @@
+create database rockola;
+
+use rockola;
+
+CREATE USER 'laravel'@'localhost' IDENTIFIED BY 'secret';
+
+GRANT ALL PRIVILEGES ON * . * TO 'laravel'@'localhost';
+
+FLUSH PRIVILEGES;
+
+﻿create table users(
+	id serial not null ,
+	name varchar(30) not null ,
+	email varchar(40) not null ,
+	password varchar(20) not null ,
+	is_admin boolean default false ,
+	remember_token	varchar(100),
+	created_at	timestamp,
+	updated_at	timestamp,
+	primary key(id),
+	unique(username,password) 
+);
+
+
+create table artist(
+	id serial not null,
+	name varchar(45) default null,
+	created_at	timestamp,
+	updated_at	timestamp,
+	primary key (id),
+	unique(name)
+);
+
+create table track(
+	id serial not null,
+	id_artist int not null,
+	name varchar(45)default null,
+	dir_track varchar (500) not null,
+	created_at	timestamp,
+	updated_at	timestamp,
+	primary key (id),
+	unique(name)
+);
+alter table track add constraint fk_id_artist foreign key (id_artist) references artist (id) on delete cascade on update cascade;
